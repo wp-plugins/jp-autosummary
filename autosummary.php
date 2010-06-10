@@ -2,8 +2,8 @@
 /*
 Plugin Name: JP-AutoSummary
 Plugin URI: http://www.jpreece.com/tutorials/wordpress/jp-autosummary/
-Description: A very simple and useful utility that allows you to create summarys on your pages using custom fields and have them automatically displayed on your stub pages.
-Version: 0.2
+Description: A very simple and useful utility that allows you to create page summaries, which you can then have automatically displayed on your stub pages.
+Version: 0.3
 Author: Jonathan Preece
 Author URI: http://www.jpreece.com
 License: GPL2
@@ -44,14 +44,26 @@ function autosummary_func($atts)
 		//Display the post/page title
 		echo '<h3><a href="/?page_id=' . $portfolio_children[$i]->ID . '" title="' . $portfolio_children[$i]->post_title . '">' . $portfolio_children[$i]->post_title . '</a></h3>';
 		
-		//Get the summary custom field
-		$custompost = get_post_custom($portfolio_children[$i]->ID);		
-		$custfield = $custompost['Summary'];		
-		
-		//Display the custom summary
-		echo "<p>" . $custfield[0] . "</p>";
+		//Get content from the page
+		$page = get_page($portfolio_children[$i]->ID);
+		$content = $page->post_content;
+			
+		//Extract shortcodes
+		do_shortcode($content);
 	}
 }
+
+//Acts as a handler for the Summary shortcode
+function summarysc_func($atts, $content = null)
+{		
+	//Get attributes
+	extract(shortcode_atts($atts));
+	
+	echo "<p>" . $content . "</p>";
+}
+
+//Adds shortcode [Summary]
+add_shortcode('Summary', 'summarysc_func');
 
 //Add Shortcode [JP-AutoSummary id="My Page"]
 add_shortcode('JP-AutoSummary', 'autosummary_func');
