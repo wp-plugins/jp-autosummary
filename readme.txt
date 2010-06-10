@@ -20,6 +20,8 @@ This section describes how to install the plugin and get it working.
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Use [JP-AutoSummary id="My Page"] shortcode to activate
 
+For more info see; http://www.jpreece.com/tutorials/wordpress/jp-autosummary/
+
 == Frequently Asked Questions ==
 
 
